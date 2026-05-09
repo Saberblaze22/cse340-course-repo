@@ -1,7 +1,7 @@
 {
   "name": "cse340-course-repo",
   "version": "1.0.0",
-  "description": "",
+  "description": "CSE 340 course project repository",
   "homepage": "https://github.com/Saberblaze22/cse340-course-repo#readme",
   "bugs": {
     "url": "https://github.com/Saberblaze22/cse340-course-repo/issues"
@@ -11,13 +11,16 @@
     "url": "git+https://github.com/Saberblaze22/cse340-course-repo.git"
   },
   "license": "ISC",
-  "author": "",
+  "author": "Saberblaze22",
   "type": "module",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-  "dev": "nodemon",
-  "start": "node server.js"
-},
+    "dev": "nodemon",
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^5.2.1"
   },
