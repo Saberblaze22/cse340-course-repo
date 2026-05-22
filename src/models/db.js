@@ -12,8 +12,8 @@ import { Pool } from 'pg';
  * postgresql://username:password@host:port/database
  */
 const pool = new Pool({
-    connectionString: process.env.DB_URL,
-    ssl: true
+    connectionString: process.env.DATABASE_URL,
+    ssl: {rejectUnauthorized: false} // Adjust SSL settings as needed for your environment
 });
 
 /**
