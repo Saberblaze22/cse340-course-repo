@@ -2,11 +2,8 @@
 <main>
         <h1><%= title %></h1>
         <h2>Upcoming Service Projects</h2>
-        <ul>
-            <li>environmental</li>
-            <li>educational</li>
-            <li>community service</li>
-            <li>health and wellness</li>
-        </ul>
+            <% categories.forEach(category => { %>
+                <li><%= category.name %></li>
+            <% }) %>
 </main>
 <%- include('partials/footer') %>
