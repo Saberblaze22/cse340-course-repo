@@ -11,15 +11,18 @@ import { Pool } from 'pg';
  * The connection string format is:
  * postgresql://username:password@host:port/database
  */
+const connectionString =
+    process.env.DATABASE_URL || process.env.DB_URL;
+
+const isLocal =
+    connectionString.includes('localhost') ||
+    connectionString.includes('127.0.0.1');
 
 const pool = new Pool({
-    connectionString: isProduction
-        ? process.env.DATABASE_URL
-        : process.env.DB_URL,
-
-    ssl: isProduction
-        ? { rejectUnauthorized: false }
-        : false
+    connectionString,
+    ssl: isLocal
+        ? false
+        : { rejectUnauthorized: false }
 });
 
 /**
