@@ -3,8 +3,8 @@
         <h1><%= title %></h1>
         <h2>Upcoming Service Projects</h2>
 <ul     <ul>
-            <% organizations.forEach(organization => { %>
-                <li><strong><%= organization.name %></strong>: <%= organization.contact_email %></li>
+            <% projects.forEach(project => { %>
+                <li><strong><%= project.project_date %></strong>: <%= project.title %> (<%= project.name %>)</li>
             <% }); %>
         </ul>
     </main>
