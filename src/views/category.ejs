@@ -2,7 +2,9 @@
 
 <main>
 
-    <h1><%= title %></h1>
+    <h1><%= category.name %></h1>
+
+    <h2>Service Projects</h2>
 
     <ul>
 
@@ -12,12 +14,6 @@
 
                 <a href="/project/<%= project.project_id %>">
                     <%= project.title %>
-                </a>
-
-                -
-                
-                <a href="/organization/<%= project.organization_id %>">
-                    <%= project.organization_name %>
                 </a>
 
             </li>
