@@ -25,8 +25,9 @@ const getCategoryDetails = async (categoryId) => {
 
     const result = await db.query(query, queryParams);
 
-    return result.rows[0];
-    
+    return result.rows.length > 0
+        ? result.rows[0]
+        : null;
 };
 
 const getProjectsByCategoryId = async (categoryId) => {

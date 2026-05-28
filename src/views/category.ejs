@@ -6,21 +6,21 @@
 
     <h2>Service Projects</h2>
 
-    <ul>
+    <p>
 
         <% projects.forEach(project => { %>
 
-            <li>
+           
 
                 <a href="/project/<%= project.project_id %>">
                     <%= project.title %>
                 </a>
 
-            </li>
+            
 
         <% }) %>
 
-    </ul>
+            </p>
 
 </main>
 
