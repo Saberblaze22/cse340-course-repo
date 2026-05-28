@@ -1,6 +1,6 @@
 import pool from './db.js';
 
-export async function getAllCategories() {
+async function getAllCategories() {
     const sql = `
         SELECT *
         FROM category
