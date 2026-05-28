@@ -1,7 +1,7 @@
 // Import model functions
 import { getAllOrganizations, getOrganizationDetails } from '../models/organizations.js';
 
-import { getProjectsByOrganizationId } from './models/projects.js';
+import { getProjectsByOrganizationId } from '../models/projects.js';
 
 // Define controller functions
 const showOrganizationsPage = async (req, res) => {
