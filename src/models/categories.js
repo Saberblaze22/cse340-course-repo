@@ -1,4 +1,4 @@
-import pool from './db.js';
+import db from './db.js';
 
 async function getAllCategories() {
     const sql = `
@@ -7,7 +7,7 @@ async function getAllCategories() {
         ORDER BY name;
     `;
 
-    const result = await pool.query(sql);
+    const result = await db.query(sql);
     return result.rows;
 }
 
