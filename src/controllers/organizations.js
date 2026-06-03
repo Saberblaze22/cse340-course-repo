@@ -1,6 +1,6 @@
 // Import model functions
 import { getAllOrganizations, getOrganizationDetails } from '../models/organizations.js';
-const { createOrganization } = require('../models/organizations');
+import { createOrganization } from('../models/organizations');
 import { getProjectsByOrganizationId } from '../models/projects.js';
 
 // Define controller functions
