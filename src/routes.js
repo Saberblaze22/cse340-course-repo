@@ -21,6 +21,14 @@ router.get('/organizations', showOrganizationsPage);
 // Route for organization details page
 router.get('/organization/:id', showOrganizationDetailsPage);
 
+const {
+    showNewOrganizationForm,
+    processNewOrganizationForm
+} = require('./controllers/organizations');
+
+router.get('/organizations/new', showNewOrganizationForm);
+router.post('/organizations/new', processNewOrganizationForm);
+
 router.get('/projects', showProjectsPage);
 // Route for project details page
 router.get('/project/:id', showProjectDetailsPage);
