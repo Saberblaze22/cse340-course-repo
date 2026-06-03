@@ -5,6 +5,10 @@ import {
     showOrganizationsPage,
     showOrganizationDetailsPage
 } from './controllers/organizations.js';
+import {
+    showNewOrganizationForm,
+    processNewOrganizationForm
+} from './controllers/organizations.js';
 import { showProjectsPage, showProjectDetailsPage } from './controllers/projects.js';
 import {
     showCategoriesPage,
@@ -20,11 +24,6 @@ router.get('/', showHomePage);
 router.get('/organizations', showOrganizationsPage);
 // Route for organization details page
 router.get('/organization/:id', showOrganizationDetailsPage);
-
-const {
-    showNewOrganizationForm,
-    processNewOrganizationForm
-} = require('./controllers/organizations');
 
 router.get('/organizations/new', showNewOrganizationForm);
 router.post('/organizations/new', processNewOrganizationForm);
