@@ -3,11 +3,10 @@ import express from 'express';
 import { showHomePage } from './controllers/index.js';
 import {
     showOrganizationsPage,
-    showOrganizationDetailsPage
-} from './controllers/organizations.js';
-import {
+    showOrganizationDetailsPage,
     showNewOrganizationForm,
-    processNewOrganizationForm
+    processNewOrganizationForm,
+    organizationValidation
 } from './controllers/organizations.js';
 import { showProjectsPage, showProjectDetailsPage } from './controllers/projects.js';
 import {
@@ -26,6 +25,11 @@ router.get('/organizations', showOrganizationsPage);
 router.get('/organization/:id', showOrganizationDetailsPage);
 
 router.get('/organizations/new', showNewOrganizationForm);
+router.post(
+    '/organizations/new',
+    organizationValidation,
+    processNewOrganizationForm
+);
 router.post('/organizations/new', processNewOrganizationForm);
 
 router.get('/projects', showProjectsPage);
