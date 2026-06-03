@@ -32,7 +32,9 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Session middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(session({
     secret: SESSION_SECRET,
     resave: false,
@@ -40,16 +42,11 @@ app.use(session({
     cookie: { maxAge: 60 * 60 * 1000 }
 }));
 
-// Flash middleware (depends on session)
 app.use(flash);
 
-// Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Set EJS as the templating engine
 app.set('view engine', 'ejs');
-
-// Tell Express where to find your templates
 app.set('views', path.join(__dirname, 'src/views'));
 
 // Middleware to log all incoming requests
@@ -65,15 +62,6 @@ app.use((req, res, next) => {
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
-
-app.use(session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 1000 }
-}));
-
-app.use(flash);
 
 // Use the imported router to handle routes
 app.use(router);
