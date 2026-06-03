@@ -1,15 +1,15 @@
-import db from './db.js'
+import db from './db.js';
 
-const getAllOrganizations = async() => {
+const getAllOrganizations = async () => {
     const query = `
         SELECT organization_id, name, description, contact_email, logo_filename
-      FROM public.organization;
+        FROM public.organization;
     `;
 
     const result = await db.query(query);
-
     return result.rows;
-}
+};
+
 const getOrganizationDetails = async (organizationId) => {
     const query = `
         SELECT
@@ -22,14 +22,13 @@ const getOrganizationDetails = async (organizationId) => {
         WHERE organization_id = $1;
     `;
 
-    /**
- * Creates a new organization in the database.
- * @param {string} name
- * @param {string} description
- * @param {string} contactEmail
- * @param {string} logoFilename
- * @returns {string}
- */
+    const queryParams = [organizationId];
+
+    const result = await db.query(query, queryParams);
+
+    return result.rows.length > 0 ? result.rows[0] : null;
+};
+
 const createOrganization = async (
     name,
     description,
@@ -66,12 +65,8 @@ const createOrganization = async (
     return result.rows[0].organization_id;
 };
 
-    const queryParams = [organizationId];
-
-    const result = await db.query(query, queryParams);
-
-    // Return first row or null
-    return result.rows.length > 0 ? result.rows[0] : null;
+export {
+    getAllOrganizations,
+    getOrganizationDetails,
+    createOrganization
 };
-
-export {getAllOrganizations, getOrganizationDetails, createOrganization};  
