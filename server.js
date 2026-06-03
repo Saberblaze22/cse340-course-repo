@@ -1,3 +1,4 @@
+console.log("SESSION_SECRET =", process.env.SESSION_SECRET);
 import { fileURLToPath } from 'url';
 import path from 'path';
 import session from 'express-session';
