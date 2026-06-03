@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'url';
 import path from 'path';
-
+import session from 'express-session';
+import flash from './src/middleware/flash.js';
 
 import express from 'express';
 import router from './src/routes.js';
@@ -8,6 +9,10 @@ import { testConnection } from './src/models/db.js';
 
 // Define the the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
+const SESSION_SECRET = process.env.SESSION_SECRET;
+if (!SESSION_SECRET) {
+    throw new Error('SESSION_SECRET is not defined in environment variables');
+}
 
 
 // Define the port number the server will listen on
@@ -23,8 +28,22 @@ const app = express();
   */
 
 // Serve static files from the public directory
+// Parse request bodies FIRST
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Session middleware
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 }
+}));
+
+// Flash middleware (depends on session)
+app.use(flash);
+
+// Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set EJS as the templating engine
@@ -46,6 +65,15 @@ app.use((req, res, next) => {
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
+
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 }
+}));
+
+app.use(flash);
 
 // Use the imported router to handle routes
 app.use(router);
