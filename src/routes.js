@@ -2,11 +2,14 @@ import express from 'express';
 
 import { showHomePage } from './controllers/index.js';
 import {
+    processEditOrganizationForm,
+    showEditOrganizationForm,
     showOrganizationsPage,
     showOrganizationDetailsPage,
     showNewOrganizationForm,
     processNewOrganizationForm,
-    organizationValidation
+    organizationValidation,
+    processEditOrganizationForm
 } from './controllers/organizations.js';
 import { showProjectsPage, showProjectDetailsPage } from './controllers/projects.js';
 import {
@@ -31,6 +34,13 @@ router.post(
     processNewOrganizationForm
 );
 router.post('/organizations/new', processNewOrganizationForm);
+router.get('/edit-organization/:id', showEditOrganizationForm);
+
+router.post(
+    '/edit-organization/:id',
+    organizationValidation,
+    processEditOrganizationForm
+);
 
 router.get('/projects', showProjectsPage);
 // Route for project details page

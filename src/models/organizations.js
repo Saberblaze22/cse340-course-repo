@@ -65,8 +65,27 @@ const createOrganization = async (
     return result.rows[0].organization_id;
 };
 
+const updateOrganization = async (organizationId, name, description, contactEmail, logoFilename) => {
+    const query = `
+        UPDATE organization
+        SET name = $1,
+            description = $2,
+            contact_email = $3,
+            logo_filename = $4
+        WHERE organization_id = $5
+        RETURNING organization_id;
+    `;
+
+    const values = [name, description, contactEmail, logoFilename, organizationId];
+
+    const result = await db.query(query, values);
+
+    return result.rows[0].organization_id;
+};
+
 export {
     getAllOrganizations,
     getOrganizationDetails,
-    createOrganization
+    createOrganization,
+    updateOrganization
 };

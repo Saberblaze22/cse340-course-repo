@@ -1,8 +1,8 @@
-<%- include('partials/header') %>
+
+<%- include('partials/header', { title: title }) %>
 <main>
     <h1><%= title %></h1>
-
-<form action="/organizations/new" method="POST">
+<form action="/edit-organization/<%= organizationDetails.organization_id %>" method="POST">
     <div class="form-group">
         <label for="name">Organization Name</label>
         <input
@@ -11,6 +11,7 @@
             name="name"
             maxlength="150"
             required
+            value="<%= organizationDetails.name %>"
         />
     </div>
 
@@ -21,7 +22,7 @@
             name="description"
             maxlength="500"
             required
-        ></textarea>
+        ><%= organizationDetails.description %></textarea>
     </div>
 
     <div class="form-group">
@@ -31,10 +32,23 @@
             id="contactEmail"
             name="contactEmail"
             required
+            value="<%= organizationDetails.contact_Email %>"
         />
     </div>
 
-    <button type="submit">Create Organization</button>
+    <div class="form-group">
+    <label for="logoFilename">Logo Filename</label>
+    <input
+        type="text"
+        id="logoFilename"
+        name="logoFilename"
+        maxlength="255"
+        required
+        value="<%= organizationDetails.logo_filename %>"
+    />
+</div>
+
+    <button type="submit">Update Organization</button>
 </form>
 </main>
 <%- include('partials/footer') %>
