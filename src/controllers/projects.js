@@ -134,15 +134,6 @@ const processNewProjectForm = async (req, res) => {
     }
 };
 
-const updateProject = async (
-    projectId,
-    title,
-    description,
-    location,
-    date,
-    organizationId
-) => {
-
     const query = `
         UPDATE project
         SET
@@ -171,7 +162,6 @@ const updateProject = async (
     }
 
     return result.rows[0].project_id;
-};
 
 const showEditProjectForm = async (req, res) => {
 
