@@ -28,8 +28,6 @@ import {
     processNewCategoryForm,
     showEditCategoryForm,
     processEditCategoryForm,
-    getCategoriesByProjectId,
-    getProjectsByCategoryId,
     categoryValidation
 } from './controllers/categories.js';
 
