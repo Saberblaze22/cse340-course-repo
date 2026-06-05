@@ -2,7 +2,7 @@
 import {
     getAllCategories,
     getCategoryDetails,
-    getProjectsByCategoryId,
+    getCategoriesByProjectId,
     updateCategoryAssignments,
     getCategoriesByProjectId,
     createCategory,
