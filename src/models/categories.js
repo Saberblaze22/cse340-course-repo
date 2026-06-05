@@ -30,26 +30,20 @@ const getCategoryDetails = async (categoryId) => {
         : null;
 };
 
-const getProjectsByCategoryId = async (categoryId) => {
+const getCategoriesByProjectId = async (projectId) => {
 
     const query = `
         SELECT
-            p.project_id,
-            p.title
-        FROM project p
-
+            c.category_id,
+            c.name
+        FROM category c
         JOIN project_category pc
-            ON p.project_id = pc.project_id
-
-        WHERE pc.category_id = $1
-
-        ORDER BY p.title;
+            ON c.category_id = pc.category_id
+        WHERE pc.project_id = $1
+        ORDER BY c.name;
     `;
 
-    const queryParams = [categoryId];
-
-    const result = await db.query(query, queryParams);
-
+    const result = await db.query(query, [projectId]);
     return result.rows;
 };
 
@@ -117,7 +111,7 @@ const updateCategory = async (categoryId, name) => {
 export {
     getAllCategories,
     getCategoryDetails,
-    getProjectsByCategoryId,
+    getCategoriesByProjectId,
     updateCategoryAssignments,
     updateCategory,
     createCategory
