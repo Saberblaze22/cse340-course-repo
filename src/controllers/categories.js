@@ -4,7 +4,6 @@ import {
     getCategoryDetails,
     getCategoriesByProjectId,
     updateCategoryAssignments,
-    getCategoriesByProjectId,
     createCategory,
     updateCategory
 } from '../models/categories.js';
