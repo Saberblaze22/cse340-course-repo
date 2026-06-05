@@ -18,6 +18,24 @@ const showCategoriesPage = async (req, res) => {
     res.render('categories', { title, categories });
 };
 
+const getProjectsByCategoryId = async (categoryId) => {
+
+    const query = `
+        SELECT
+            p.project_id,
+            p.title
+        FROM project p
+        JOIN project_category pc
+            ON p.project_id = pc.project_id
+        WHERE pc.category_id = $1
+        ORDER BY p.title;
+    `;
+
+    const result = await db.query(query, [categoryId]);
+
+    return result.rows;
+};
+
 const showCategoryDetailsPage = async (req, res) => {
 
     const categoryId = req.params.id;
@@ -149,5 +167,7 @@ export {
     processNewCategoryForm,
     showEditCategoryForm,
     processEditCategoryForm,
+    getCategoriesByProjectId,
+    getProjectsByCategoryId,
     categoryValidation
 };
