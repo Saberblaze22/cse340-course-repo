@@ -3,10 +3,10 @@ import {
     getAllCategories,
     getCategoryDetails,
     getCategoriesByProjectId,
-    getProjectsByCategoryId,
     updateCategoryAssignments,
     createCategory,
-    updateCategory
+    updateCategory,
+    getProjectsByCategoryId
 } from '../models/categories.js';
 import { body, validationResult } from 'express-validator';
 import { getProjectDetails } from '../models/projects.js';
@@ -18,8 +18,6 @@ const showCategoriesPage = async (req, res) => {
 
     res.render('categories', { title, categories });
 };
-
-const projects = await getProjectsByCategoryId(categoryId);
 
 const showCategoryDetailsPage = async (req, res) => {
 
@@ -152,7 +150,5 @@ export {
     processNewCategoryForm,
     showEditCategoryForm,
     processEditCategoryForm,
-    getCategoriesByProjectId,
-    getProjectsByCategoryId,
     categoryValidation
 };
