@@ -3,9 +3,11 @@
         <h1><%= title %></h1>
         <h2>Upcoming Service Projects</h2>
             <% categories.forEach(category => { %>
-                <a href="/category/<%= category.category_id %>">
-    <%= category.name %>
-</a></li>
+                <li>
+                    <a href="/category/<%= category.category_id %>">
+                        <%= category.name %>
+                    </a>
+                </li>
             <% }) %>
            <p>
     <a href="/new-category">
