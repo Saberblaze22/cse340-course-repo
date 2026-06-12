@@ -14,6 +14,8 @@ const createUser = async (name, email, passwordHash) => {
         passwordHash
     ]);
 
+    console.log("createUser params:", name, email, passwordHash);
+
     return result.rows[0].user_id;
 };
 
