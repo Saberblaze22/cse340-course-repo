@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { showHomePage } from './controllers/index.js';
+
 import {
     showEditOrganizationForm,
     showOrganizationsPage,
@@ -10,6 +11,7 @@ import {
     organizationValidation,
     processEditOrganizationForm
 } from './controllers/organizations.js';
+
 import {     
     showProjectsPage,
     showProjectDetailsPage,
@@ -19,6 +21,7 @@ import {
     showEditProjectForm,
     processEditProjectForm
 } from './controllers/projects.js';
+
 import {
     showCategoriesPage,
     showCategoryDetailsPage,
@@ -30,6 +33,16 @@ import {
     processEditCategoryForm,
     categoryValidation
 } from './controllers/categories.js';
+
+import {
+    showUserRegistrationForm,
+    processUserRegistrationForm,
+    showLoginForm,
+    processLoginForm,
+    processLogout,
+    requireLogin,
+    showDashboard
+} from './controllers/users.js';
 
 import { testErrorPage } from './controllers/errors.js';
 
@@ -93,6 +106,20 @@ router.post(
     '/edit-category/:id',
     categoryValidation,
     processEditCategoryForm
+);
+
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
+
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+
+router.get('/logout', processLogout);
+
+router.get(
+    '/dashboard',
+    requireLogin,
+    showDashboard
 );
 
 // Error-handling routes
