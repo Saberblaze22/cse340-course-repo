@@ -40,7 +40,6 @@ const createUser = async (name, email, passwordHash) => {
     }
 
     return result.rows[0].user_id;
-};
 
 const findUserByEmail = async (email) => {
     const query = `
