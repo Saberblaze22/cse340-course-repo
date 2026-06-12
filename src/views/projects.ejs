@@ -23,13 +23,14 @@
                 </a>
 
                 -
-                
+
                 <a href="/organization/<%= project.organization_id %>">
                     <%= project.organization_name %>
                 </a>
 
+                <!-- ADMIN ONLY: Edit link -->
                 <% if (user && user.role_name === 'admin') { %>
-                    | <a href="/project/<%= project.project_id %>/edit">
+                    | <a href="/edit-project/<%= project.project_id %>">
                         Edit
                     </a>
                 <% } %>
