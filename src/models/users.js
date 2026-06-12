@@ -1,12 +1,20 @@
 import db from './db.js';
 import bcrypt from 'bcrypt';
 
+/* ------------------------
+   CREATE USER
+------------------------ */
 const createUser = async (name, email, passwordHash) => {
-    const default_role = 'user';
+    const defaultRole = 'user';
 
     const query = `
         INSERT INTO users (name, email, password_hash, role_id)
-        VALUES ($1, $2, $3, (SELECT role_id FROM roles WHERE role_name = $4))
+        VALUES (
+            $1,
+            $2,
+            $3,
+            (SELECT role_id FROM roles WHERE role_name = $4)
+        )
         RETURNING user_id
     `;
 
@@ -14,20 +22,20 @@ const createUser = async (name, email, passwordHash) => {
         name,
         email,
         passwordHash,
-        default_role
+        defaultRole
     ]);
 
     if (result.rows.length === 0) {
         throw new Error('Failed to create user');
     }
 
-    if (process.env.ENABLE_SQL_LOGGING === 'true') {
-        console.log('Created new user with ID:', result.rows[0].user_id);
-    }
-
     return result.rows[0].user_id;
 };
 
+/* ------------------------
+   FIND USER BY EMAIL
+   (THIS IS THE CRITICAL FIX)
+------------------------ */
 const findUserByEmail = async (email) => {
     const query = `
         SELECT
@@ -50,10 +58,16 @@ const findUserByEmail = async (email) => {
     return result.rows[0];
 };
 
+/* ------------------------
+   PASSWORD CHECK
+------------------------ */
 const verifyPassword = async (password, passwordHash) => {
     return bcrypt.compare(password, passwordHash);
 };
 
+/* ------------------------
+   AUTHENTICATE USER
+------------------------ */
 const authenticateUser = async (email, password) => {
     const user = await findUserByEmail(email);
 
@@ -63,11 +77,15 @@ const authenticateUser = async (email, password) => {
 
     if (!isValid) return null;
 
+    // remove sensitive data
     delete user.password_hash;
 
     return user;
 };
 
+/* ------------------------
+   EXPORTS
+------------------------ */
 export {
     createUser,
     authenticateUser
