@@ -2,38 +2,42 @@ import express from 'express';
 
 import { showHomePage } from './controllers/index.js';
 
+/* ---------------- ORGANIZATIONS ---------------- */
 import {
-    showEditOrganizationForm,
     showOrganizationsPage,
     showOrganizationDetailsPage,
     showNewOrganizationForm,
     processNewOrganizationForm,
-    organizationValidation,
-    processEditOrganizationForm
+    showEditOrganizationForm,
+    processEditOrganizationForm,
+    organizationValidation
 } from './controllers/organizations.js';
 
-import {     
+/* ---------------- PROJECTS ---------------- */
+import {
     showProjectsPage,
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
-    projectValidation,
     showEditProjectForm,
-    processEditProjectForm
+    processEditProjectForm,
+    projectValidation
 } from './controllers/projects.js';
 
+/* ---------------- CATEGORIES ---------------- */
 import {
     showCategoriesPage,
     showCategoryDetailsPage,
-    showAssignCategoriesForm,
-    processAssignCategoriesForm,
     showNewCategoryForm,
     processNewCategoryForm,
     showEditCategoryForm,
     processEditCategoryForm,
-    categoryValidation
+    categoryValidation,
+    showAssignCategoriesForm,
+    processAssignCategoriesForm
 } from './controllers/categories.js';
 
+/* ---------------- USERS ---------------- */
 import {
     showUserRegistrationForm,
     processUserRegistrationForm,
@@ -49,20 +53,34 @@ import { testErrorPage } from './controllers/errors.js';
 
 const router = express.Router();
 
+/* ===================== HOME ===================== */
 router.get('/', showHomePage);
 
+/* ================= ORGANIZATIONS ================= */
 router.get('/organizations', showOrganizationsPage);
-// Route for organization details page
+
 router.get('/organization/:id', showOrganizationDetailsPage);
 
-router.get('/organizations/new', requireRole('admin'), showNewOrganizationForm);
+/* CREATE */
+router.get(
+    '/organizations/new',
+    requireRole('admin'),
+    showNewOrganizationForm
+);
+
 router.post(
     '/organizations/new',
     requireRole('admin'),
     organizationValidation,
     processNewOrganizationForm
 );
-router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);
+
+/* EDIT */
+router.get(
+    '/edit-organization/:id',
+    requireRole('admin'),
+    showEditOrganizationForm
+);
 
 router.post(
     '/edit-organization/:id',
@@ -71,9 +89,12 @@ router.post(
     processEditOrganizationForm
 );
 
+/* ===================== PROJECTS ===================== */
 router.get('/projects', showProjectsPage);
-// Route for project details page
+
 router.get('/project/:id', showProjectDetailsPage);
+
+/* CREATE */
 router.get('/new-project', showNewProjectForm);
 
 router.post(
@@ -81,17 +102,18 @@ router.post(
     projectValidation,
     processNewProjectForm
 );
+
+/* EDIT */
 router.get('/edit-project/:id', showEditProjectForm);
 
 router.post('/edit-project/:id', processEditProjectForm);
 
+/* ===================== CATEGORIES ===================== */
 router.get('/categories', showCategoriesPage);
-// Route for category details page
+
 router.get('/category/:id', showCategoryDetailsPage);
-router.get('/assign-categories/:projectId', showAssignCategoriesForm);
 
-router.post('/assign-categories/:projectId', processAssignCategoriesForm);
-
+/* CREATE */
 router.get('/new-category', showNewCategoryForm);
 
 router.post(
@@ -100,10 +122,13 @@ router.post(
     processNewCategoryForm
 );
 
-router.get(
-    '/edit-category/:id',
-    showEditCategoryForm
-);
+/* ASSIGN */
+router.get('/assign-categories/:projectId', showAssignCategoriesForm);
+
+router.post('/assign-categories/:projectId', processAssignCategoriesForm);
+
+/* EDIT */
+router.get('/edit-category/:id', showEditCategoryForm);
 
 router.post(
     '/edit-category/:id',
@@ -111,6 +136,7 @@ router.post(
     processEditCategoryForm
 );
 
+/* ===================== AUTH ===================== */
 router.get('/register', showUserRegistrationForm);
 router.post('/register', processUserRegistrationForm);
 
@@ -125,7 +151,7 @@ router.get(
     showDashboard
 );
 
-// Error-handling routes
+/* ===================== ERROR TEST ===================== */
 router.get('/test-error', testErrorPage);
 
 export default router;
