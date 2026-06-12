@@ -3,11 +3,36 @@
 <main>
     <h1><%= title %></h1>
 
-    <h2>Dashboard</h2>
+    <h2>Welcome, <%= name %>!</h2>
 
-    <p>Name: <%= name %></p>
+    <p>Email: <%= email %></p>
 
-    <p>Username: <%= email %></p>
+    <p>
+        <a href="/logout">Logout</a>
+    </p>
+
+    <hr>
+
+    <h3>Quick Links</h3>
+
+    <ul>
+        <li><a href="/organizations">Organizations</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/categories">Categories</a></li>
+    </ul>
+
+    <% if (user && user.role_name === 'admin') { %>
+        <hr>
+
+        <h3>Admin Tools</h3>
+
+        <ul>
+            <li>
+                <a href="/users">View Registered Users</a>
+            </li>
+        </ul>
+    <% } %>
+
 </main>
 
 <%- include('partials/footer') %>

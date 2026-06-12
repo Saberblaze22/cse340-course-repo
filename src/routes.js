@@ -154,4 +154,11 @@ router.get(
 /* ===================== ERROR TEST ===================== */
 router.get('/test-error', testErrorPage);
 
+/* ----------------------- show users page (for admin dashboard) ----------------------- */
+router.get(
+    '/users',
+    requireRole('admin'),
+    showUsersPage
+);
+
 export default router;
