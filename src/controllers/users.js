@@ -114,7 +114,9 @@ const processUserRegistrationForm = async (req, res) => {
 
         res.redirect('/');
     } catch (error) {
-        console.error('Error registering user:', error);
+        console.error('FULL ERROR:', error);
+console.error('ERROR MESSAGE:', error.message);
+console.error('STACK:', error.stack);
 
         req.flash(
             'error',
