@@ -5,7 +5,6 @@
 
     <p>Here are a few of our partner organizations:</p>
 
-    <!-- ADMIN ONLY: Add Organization -->
     <% if (user && user.role_name === 'admin') { %>
         <p>
             <a href="/organizations/new">Add New Organization</a>
@@ -26,9 +25,8 @@
 
                 : <%= organization.contact_email %>
 
-                <!-- ADMIN ONLY: Edit link -->
                 <% if (user && user.role_name === 'admin') { %>
-                    <a href="/edit-organization/<%= organization.organization_id %>">
+                    | <a href="/edit-organization/<%= organization.organization_id %>">
                         Edit
                     </a>
                 <% } %>

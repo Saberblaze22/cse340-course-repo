@@ -1,46 +1,34 @@
 <%- include('partials/header') %>
 
 <main>
-
     <h1><%= title %></h1>
 
     <% if (user && user.role_name === 'admin') { %>
         <p>
-            <a href="/new-project">
-                Add a New Service Project
-            </a>
+            <a href="/new-project">Add a New Service Project</a>
         </p>
     <% } %>
 
     <ul>
-
         <% projects.forEach(project => { %>
-
             <li>
-
                 <a href="/project/<%= project.project_id %>">
                     <%= project.title %>
                 </a>
 
                 -
-
                 <a href="/organization/<%= project.organization_id %>">
                     <%= project.organization_name %>
                 </a>
 
-                <!-- ADMIN ONLY: Edit link -->
                 <% if (user && user.role_name === 'admin') { %>
                     | <a href="/edit-project/<%= project.project_id %>">
                         Edit
                     </a>
                 <% } %>
-
             </li>
-
         <% }) %>
-
     </ul>
-
 </main>
 
 <%- include('partials/footer') %>
