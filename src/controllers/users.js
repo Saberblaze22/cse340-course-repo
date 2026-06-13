@@ -29,7 +29,7 @@ const processUserRegistrationForm = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(password, salt);
 
-        const userId = await createUser(name, email, passwordHash);
+        await createUser(name, email, passwordHash);
 
         req.flash('success', 'Registration successful! Please log in.');
         res.redirect('/login');
@@ -60,7 +60,6 @@ const processLoginForm = async (req, res) => {
             return res.redirect('/login');
         }
 
-        // IMPORTANT: ensure consistent session structure
         req.session.user = {
             user_id: user.user_id,
             name: user.name,
@@ -80,16 +79,16 @@ const processLoginForm = async (req, res) => {
 };
 
 /* ------------------------
-   LOGOUT
+   LOGOUT (FIXED)
 ------------------------ */
 const processLogout = (req, res) => {
     if (req.session) {
         req.session.destroy(() => {
             req.flash('success', 'Logout successful!');
-            res.redirect('/login');
+            res.redirect('/');   // ✅ FIXED: now matches assignment requirement
         });
     } else {
-        res.redirect('/login');
+        res.redirect('/');
     }
 };
 
@@ -115,7 +114,6 @@ const requireRole = (role) => {
             return res.redirect('/login');
         }
 
-        // SAFE fallback prevents crashes
         const userRole = req.session.user.role_name || 'user';
 
         if (userRole !== role) {
@@ -141,7 +139,7 @@ const showDashboard = (req, res) => {
 };
 
 /* ------------------------
-show all users (for admin dashboard)
+   USERS PAGE (ADMIN ONLY)
 ------------------------ */
 const showUsersPage = async (req, res) => {
     const users = await getAllUsers();

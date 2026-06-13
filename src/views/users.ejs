@@ -3,15 +3,19 @@
 <main>
     <h1><%= title %></h1>
 
-    <ul>
-        <% users.forEach(user => { %>
-            <li>
-                <strong><%= user.name %></strong><br>
-                <%= user.email %><br>
-                Role: <%= user.role_name %>
-            </li>
-        <% }) %>
-    </ul>
+    <% if (users && users.length > 0) { %>
+        <ul>
+            <% users.forEach(user => { %>
+                <li>
+                    <strong><%= user.name %></strong><br>
+                    <%= user.email %><br>
+                    Role: <%= user.role_name %>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No users found.</p>
+    <% } %>
 
 </main>
 

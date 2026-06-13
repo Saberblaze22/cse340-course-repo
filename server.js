@@ -1,5 +1,3 @@
-console.log("SESSION_SECRET =", process.env.SESSION_SECRET);
-
 import { fileURLToPath } from 'url';
 import path from 'path';
 import session from 'express-session';
@@ -28,11 +26,9 @@ const app = express();
    MIDDLEWARE
 ------------------------ */
 
-// Body parsers (KEEP ONLY ONCE)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Session
 app.use(session({
     secret: SESSION_SECRET,
     resave: false,
@@ -40,13 +36,10 @@ app.use(session({
     cookie: { maxAge: 60 * 60 * 1000 }
 }));
 
-// Flash messages
 app.use(flash);
 
-// Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// EJS setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
@@ -64,8 +57,9 @@ app.use((req, res, next) => {
    GLOBAL TEMPLATE DATA
 ------------------------ */
 app.use((req, res, next) => {
+    res.locals.user = req.session?.user || null;
     res.locals.isLoggedIn = !!req.session?.user;
-    res.locals.user = req.session.user || null;
+    res.locals.messages = req.flash();   // ✅ FIXED (IMPORTANT)
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
@@ -113,4 +107,3 @@ app.listen(PORT, async () => {
         console.error('DB connection error:', error);
     }
 });
-

@@ -34,7 +34,6 @@ const createUser = async (name, email, passwordHash) => {
 
 /* ------------------------
    FIND USER BY EMAIL
-   (THIS IS THE CRITICAL FIX)
 ------------------------ */
 const findUserByEmail = async (email) => {
     const query = `
@@ -77,14 +76,14 @@ const authenticateUser = async (email, password) => {
 
     if (!isValid) return null;
 
-    // remove sensitive data
+    // remove sensitive data before returning user object
     delete user.password_hash;
 
     return user;
 };
 
 /* ------------------------
-   get all users (for admin dashboard)
+   GET ALL USERS
 ------------------------ */
 const getAllUsers = async () => {
     const query = `
