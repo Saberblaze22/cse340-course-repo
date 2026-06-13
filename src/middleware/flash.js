@@ -1,16 +1,20 @@
 export default function flash(req, res, next) {
-    // Ensure session exists (prevents Render crash)
+    // GUARANTEE session exists first
     if (!req.session) {
         req.session = {};
     }
 
-    // Ensure flash storage exists
+    // GUARANTEE flash object exists
     if (!req.session.flash) {
         req.session.flash = {};
     }
 
-    // Add flash message
+    // req.flash function
     req.flash = (type, message) => {
+        if (!req.session) {
+            req.session = {};
+        }
+
         if (!req.session.flash) {
             req.session.flash = {};
         }
@@ -22,10 +26,12 @@ export default function flash(req, res, next) {
         req.session.flash[type].push(message);
     };
 
-    // Make flash available in views
+    // expose flash to views
     res.locals.flash = () => {
-        const messages = req.session.flash || {};
-        req.session.flash = {}; // clear after reading
+        const messages = req.session?.flash || {};
+        if (req.session) {
+            req.session.flash = {};
+        }
         return messages;
     };
 
