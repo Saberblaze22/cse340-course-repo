@@ -1,57 +1,33 @@
-const flashMiddleware = (req, res, next) => {
-    req.flash = function(type, message) {
+export default function flash(req, res, next) {
+    // Ensure session exists (prevents Render crash)
+    if (!req.session) {
+        req.session = {};
+    }
+
+    // Ensure flash storage exists
+    if (!req.session.flash) {
+        req.session.flash = {};
+    }
+
+    // Add flash message
+    req.flash = (type, message) => {
         if (!req.session.flash) {
-            req.session.flash = {
-                success: [],
-                error: [],
-                warning: [],
-                info: []
-            };
+            req.session.flash = {};
         }
 
-        if (type && message) {
-            if (!req.session.flash[type]) {
-                req.session.flash[type] = [];
-            }
-            req.session.flash[type].push(message);
-            return;
-        }
-
-        if (type && !message) {
-            const messages = req.session.flash[type] || [];
+        if (!req.session.flash[type]) {
             req.session.flash[type] = [];
-            return messages;
         }
 
-        const allMessages = req.session.flash || {
-            success: [],
-            error: [],
-            warning: [],
-            info: []
-        };
+        req.session.flash[type].push(message);
+    };
 
-        req.session.flash = {
-            success: [],
-            error: [],
-            warning: [],
-            info: []
-        };
-
-        return allMessages;
+    // Make flash available in views
+    res.locals.flash = () => {
+        const messages = req.session.flash || {};
+        req.session.flash = {}; // clear after reading
+        return messages;
     };
 
     next();
-};
-
-const flashLocals = (req, res, next) => {
-    res.locals.flash = req.flash;
-    next();
-};
-
-const flash = (req, res, next) => {
-    flashMiddleware(req, res, () => {
-        flashLocals(req, res, next);
-    });
-};
-
-export default flash;
+}
