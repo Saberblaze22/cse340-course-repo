@@ -32,7 +32,7 @@ const processUserRegistrationForm = async (req, res) => {
         await createUser(name, email, passwordHash);
 
         req.flash('success', 'Registration successful! Please log in.');
-        res.redirect('/login');
+        return res.redirect('/login');
 
     } catch (error) {
         console.error('Error registering user:', error);
@@ -42,7 +42,7 @@ const processUserRegistrationForm = async (req, res) => {
             'An error occurred during registration. Please try again.'
         );
 
-        res.redirect('/register');
+        return res.redirect('/register');
     }
 };
 
@@ -74,22 +74,29 @@ const processLoginForm = async (req, res) => {
         console.error('Error during login:', error);
 
         req.flash('error', 'An error occurred during login.');
-        res.redirect('/login');
+        return res.redirect('/login');
     }
 };
 
 /* ------------------------
-   LOGOUT (FIXED)
+   LOGOUT (SAFE FOR RENDER)
 ------------------------ */
 const processLogout = (req, res) => {
-    if (req.session) {
-        req.session.destroy(() => {
-            req.flash('success', 'Logout successful!');
-            res.redirect('/');   // ✅ FIXED: now matches assignment requirement
-        });
-    } else {
-        res.redirect('/');
+    if (!req.session) {
+        return res.redirect('/');
     }
+
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Logout error:', err);
+            return res.redirect('/');
+        }
+
+        // IMPORTANT:
+        // Do NOT use req.flash here because session is destroyed
+
+        return res.redirect('/');
+    });
 };
 
 /* ------------------------

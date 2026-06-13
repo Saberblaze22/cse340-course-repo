@@ -1,12 +1,19 @@
 export default function flash(req, res, next) {
 
-    // NEVER overwrite req.session
+    // SAFETY: session might not exist during destroy/logout edge cases
+    if (!req.session) {
+        req.session = {};
+    }
 
     if (!req.session.flash) {
         req.session.flash = {};
     }
 
     req.flash = (type, message) => {
+        if (!req.session) {
+            req.session = {};
+        }
+
         if (!req.session.flash) {
             req.session.flash = {};
         }
@@ -19,7 +26,11 @@ export default function flash(req, res, next) {
     };
 
     res.locals.flash = () => {
-        const messages = req.session.flash || {};
+        if (!req.session || !req.session.flash) {
+            return {};
+        }
+
+        const messages = req.session.flash;
         req.session.flash = {};
         return messages;
     };
