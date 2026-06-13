@@ -16,33 +16,31 @@
         <li><a href="/categories">Categories</a></li>
 
         <% if (isLoggedIn) { %>
-
-            <% if (user && user.role_name === 'admin') { %>
-                <li><a href="/organizations/new">Add Organization</a></li>
-                <li><a href="/new-project">Add Project</a></li>
-                <li><a href="/new-category">Add Category</a></li>
-                <li><a href="/users">Users</a></li>
-            <% } %>
-
-            <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/logout">Logout</a></li>
-
         <% } else { %>
             <li><a href="/register">Register</a></li>
             <li><a href="/login">Login</a></li>
         <% } %>
 
+        <% if (user && user.role_name === 'admin') { %>
+            <li><a href="/organizations/new">Add Organization</a></li>
+            <li><a href="/new-project">Add Project</a></li>
+            <li><a href="/new-category">Add Category</a></li>
+            <li><a href="/users">Users</a></li>
+        <% } %>
     </ul>
 </nav>
 
-<% if (messages && Object.keys(messages).length > 0) { %>
+<% if (typeof flash === 'function') { %>
+    <% const messages = flash(); %>
+
     <% Object.keys(messages).forEach(type => { %>
         <% if (messages[type].length > 0) { %>
             <div class="alert <%= type %>">
                 <% messages[type].forEach(msg => { %>
                     <p><%= msg %></p>
-                <% }) %>
+                <% }); %>
             </div>
-        <% }) %>
-    <% }) %>
+        <% } %>
+    <% }); %>
 <% } %>
